@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+ormconfig.d.ts
+ormconfig.js
+ormconfig.js.map
