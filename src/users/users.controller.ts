@@ -7,13 +7,13 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   // NOTE : 유저 회원가입
-  @Post()
+  @Post('signUp')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   // NOTE : 유저 로그인
-  // @Post()
+  // @Post('login')
   // login(@Body() loginUserDto : LoginUserDto) {
   //   return this.usersService.login(loginUserDto);
   // }
