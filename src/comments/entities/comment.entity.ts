@@ -4,20 +4,20 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Articles } from '../../articles/entities/article.entity';
+import { Users } from '../../users/entities/user.entity';
 import { CommentsRelations } from '../../comments-relations/entities/comments-relation.entity';
 
 @Index('fk_COMMENTS_ARTICLES1_idx', ['articlesId'], {})
+@Index('fk_COMMENTS_USERS1_idx', ['usersId'], {})
 @Entity('COMMENTS', { schema: 'velog' })
 export class Comments {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
-
-  @Column('int', { name: 'USER_ID' })
-  userId: number;
 
   @Column('timestamp', {
     name: 'CREATED_AT',
@@ -35,6 +35,9 @@ export class Comments {
   @Column('int', { name: 'ARTICLES_ID' })
   articlesId: number;
 
+  @Column('int', { name: 'USERS_ID' })
+  usersId: number;
+
   @ManyToOne(() => Articles, (articles) => articles.comments, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
@@ -42,15 +45,22 @@ export class Comments {
   @JoinColumn([{ name: 'ARTICLES_ID', referencedColumnName: 'id' }])
   articles: Articles;
 
-  @OneToOne(
+  @ManyToOne(() => Users, (users) => users.comments, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn([{ name: 'USERS_ID', referencedColumnName: 'id' }])
+  users: Users;
+
+  @OneToMany(
     () => CommentsRelations,
-    (commentsRelations) => commentsRelations.parent,
+    (commentsRelations) => commentsRelations.parent2,
   )
-  commentsRelations: CommentsRelations;
+  commentsRelations: CommentsRelations[];
 
   @OneToOne(
     () => CommentsRelations,
-    (commentsRelations) => commentsRelations.child,
+    (commentsRelations) => commentsRelations.child2,
   )
   commentsRelations2: CommentsRelations;
 }

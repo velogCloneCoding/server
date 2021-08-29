@@ -1,5 +1,3 @@
-import { Comments } from '../../comments/entities/comment.entity';
-import { Users } from '../../users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -9,13 +7,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Length,
-} from 'class-validator';
+import { Users } from '../../users/entities/user.entity';
+import { Comments } from '../../comments/entities/comment.entity';
 
 @Index('fk_ARTICLES_USERS_idx', ['usersId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -23,21 +16,11 @@ export class Articles {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @IsNotEmpty()
-  @Length(0, 135)
-  @IsString()
   @Column('varchar', { name: 'TITLE', length: 135 })
   title: string;
 
-  @IsNotEmpty()
-  @IsString()
   @Column('longtext', { name: 'CONTENTS' })
   contents: string;
-
-  @IsOptional()
-  @IsString()
-  @Column('longtext', { name: 'TAGS', nullable: true })
-  tags: string | null;
 
   @Column('timestamp', {
     name: 'CREATED_AT',
@@ -52,9 +35,11 @@ export class Articles {
   @Column('timestamp', { name: 'DELETED_AT', nullable: true })
   deletedAt: Date | null;
 
-  @IsNumber()
   @Column('int', { name: 'USERS_ID' })
   usersId: number;
+
+  @Column('int', { name: 'HITS', default: () => "'0'" })
+  hits: number;
 
   @ManyToOne(() => Users, (users) => users.articles, {
     onDelete: 'NO ACTION',
