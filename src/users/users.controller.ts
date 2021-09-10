@@ -1,15 +1,16 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ApiOperation } from '@nestjs/swagger';
 
-@Controller('users')
+@Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   // NOTE : 유저 회원가입
-  @Post('signUp')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @Post('join')
+  join(@Body() body: CreateUserDto) {
+    return this.usersService.create(body.email, body.password);
   }
 
   // NOTE : 유저 로그인
