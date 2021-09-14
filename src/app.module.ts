@@ -13,6 +13,7 @@ import { CommentsRelations } from './comments-relations/entities/comments-relati
 import { Articles } from './articles/entities/article.entity';
 
 import * as dotenv from 'dotenv';
+import { AuthModule } from './auth/auth.module';
 dotenv.config();
 
 @Module({
@@ -25,8 +26,9 @@ dotenv.config();
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       entities: [Users, Comments, CommentsRelations, Articles],
-      synchronize: true,
+      synchronize: false,
     }),
+    AuthModule,
     UsersModule,
     ArticlesModule,
     CommentsModule,
