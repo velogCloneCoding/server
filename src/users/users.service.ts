@@ -26,6 +26,8 @@ export class UsersService {
     });
   }
 
+  logIn(email: string, password: string) {}
+
   findAll() {
     return `This action returns all users`;
   }
