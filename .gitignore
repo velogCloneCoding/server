@@ -1,3 +1,6 @@
+# seed data는 올리지 않는다.
+database/
+
 # Logs
 logs
 *.log

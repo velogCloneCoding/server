@@ -3,8 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from './entities/user.entity';
-import bcrypt from 'bcrypt';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UsersService {
   constructor(
@@ -13,7 +12,7 @@ export class UsersService {
   ) {}
 
   async create(email: string, password: string) {
-    const user = this.usersRepository.findOne({ where: { email } });
+    const user = await this.usersRepository.findOne({ where: { email } });
     if (user) {
       throw new UnauthorizedException('이미 존재하는 사용자입니다.');
     }
@@ -22,7 +21,7 @@ export class UsersService {
 
     await this.usersRepository.save({
       email,
-      hashedPassword,
+      password: hashedPassword,
     });
   }
 
@@ -32,9 +31,32 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    // return `This action returns a #${id} user`;
-    return new Users();
+  async findOne(id: number) {
+    const user = await this.usersRepository
+      .createQueryBuilder('U')
+      .select([
+        'U.id',
+        'U.githubId',
+        'U.githubProfile',
+        'U.email',
+        'A.id',
+        'A.title',
+        'A.createdAt',
+        'A.hits',
+        'C.id',
+        'C.contents',
+        'C.createdAt',
+        'C.articlesId',
+      ])
+      .innerJoin('U.articles', 'A')
+      .innerJoin('U.comments', 'C')
+      .getMany();
+
+    const [userInfo] = user;
+
+    console.log(userInfo);
+
+    return userInfo;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
