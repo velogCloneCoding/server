@@ -33,7 +33,6 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('read')
   findOne(@User() user) {
-    console.log(user);
-    return this.usersService.findOne(user);
+    return this.usersService.findOne(user.id);
   }
 }

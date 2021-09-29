@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -32,10 +31,32 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    // return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.usersRepository
+      .createQueryBuilder('U')
+      .select([
+        'U.id',
+        'U.githubId',
+        'U.githubProfile',
+        'U.email',
+        'A.id',
+        'A.title',
+        'A.createdAt',
+        'A.hits',
+        'C.id',
+        'C.contents',
+        'C.createdAt',
+        'C.articlesId',
+      ])
+      .innerJoin('U.articles', 'A')
+      .innerJoin('U.comments', 'C')
+      .getMany();
 
-    return new Users();
+    const [userInfo] = user;
+
+    console.log(userInfo);
+
+    return userInfo;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
