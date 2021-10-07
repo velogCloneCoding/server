@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Articles } from './entities/article.entity';
 
@@ -12,8 +11,13 @@ export class ArticlesService {
     private readonly articlesRepository: Repository<Articles>,
   ) {}
 
-  create(createArticleDto: CreateArticleDto) {
-    return 'This action adds a new article';
+  //Note: Article을 생성하는 로직입니다.
+  async create(title: string, contents: string, usersId: number) {
+    return await this.articlesRepository.save({
+      title,
+      contents,
+      usersId,
+    });
   }
 
   async findAll() {

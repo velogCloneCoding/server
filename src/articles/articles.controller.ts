@@ -6,18 +6,23 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { User } from 'src/decorators/user.decorator';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 
-@Controller('articles')
+@Controller('api/articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
-  @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  //Note: 게시글 생성 (글쓰기)
+  @UseGuards(JwtAuthGuard)
+  @Post('create')
+  createArticle(@Body() body: CreateArticleDto, @User() user) {
+    return this.articlesService.create(body.title, body.contents, user.id);
   }
 
   @Get()
