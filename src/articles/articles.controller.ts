@@ -18,7 +18,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
-  //Note: 게시글 생성 (글쓰기)
+  //게시글 생성 (글쓰기)
   @UseGuards(JwtAuthGuard)
   @Post()
   createArticle(@Body() body: CreateArticleDto, @User() user) {
@@ -27,8 +27,7 @@ export class ArticlesController {
 
   @Get()
   findAll() {
-    // return this.articlesService.findAll();
-    return { name: 'kakasoo', age: 25 };
+    return this.articlesService.findAll();
   }
 
   @Get(':id')

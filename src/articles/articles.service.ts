@@ -21,7 +21,13 @@ export class ArticlesService {
   }
 
   async findAll() {
-    const articles = await this.articlesRepository.find();
+    const articles = await this.articlesRepository
+      .createQueryBuilder('A')
+      .select(['A.id', 'A.title', 'A.createdAt'])
+      .orderBy('A.id', 'DESC')
+      .limit(10)
+      .getMany();
+
     return articles;
   }
 
