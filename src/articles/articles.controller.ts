@@ -20,7 +20,7 @@ export class ArticlesController {
 
   //Note: 게시글 생성 (글쓰기)
   @UseGuards(JwtAuthGuard)
-  @Post('create')
+  @Post()
   createArticle(@Body() body: CreateArticleDto, @User() user) {
     return this.articlesService.create(body.title, body.contents, user.id);
   }
