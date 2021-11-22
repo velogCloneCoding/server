@@ -25,16 +25,20 @@ export class ArticlesController {
     return this.articlesService.create(body.title, body.contents, user.id);
   }
 
+  //자신의 게시글 목록 가져오기
   @Get()
   findAll() {
     return this.articlesService.findAll();
   }
 
+  //게시글 내용 가져오기
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articlesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    await this.articlesService.updateHit(+id);
+    return await this.articlesService.findOne(+id);
   }
 
+  //게시글 수정
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
     return this.articlesService.update(+id, updateArticleDto);

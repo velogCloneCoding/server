@@ -31,8 +31,21 @@ export class ArticlesService {
     return articles;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} article`;
+  async findOne(id: number) {
+    const article = await this.articlesRepository
+      .createQueryBuilder('A')
+      .select([
+        'A.id',
+        'A.title',
+        'A.contents',
+        'A.createdAt',
+        'A.usersId',
+        'A.hits',
+      ])
+      .where('A.id = :id', { id })
+      .getOne();
+
+    return article;
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
@@ -41,5 +54,14 @@ export class ArticlesService {
 
   remove(id: number) {
     return `This action removes a #${id} article`;
+  }
+
+  async updateHit(id: number) {
+    const hit = await this.articlesRepository
+      .createQueryBuilder()
+      .update()
+      .set({ hits: () => 'hits + 1' })
+      .where('id = :id', { id })
+      .execute();
   }
 }
