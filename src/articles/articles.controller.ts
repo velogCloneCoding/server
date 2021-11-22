@@ -39,9 +39,10 @@ export class ArticlesController {
   }
 
   //게시글 수정
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(+id, updateArticleDto);
+  update(@Param('id') id: string, @Body() body: UpdateArticleDto) {
+    return this.articlesService.update(+id, body);
   }
 
   @Delete(':id')

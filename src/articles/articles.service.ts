@@ -48,8 +48,14 @@ export class ArticlesService {
     return article;
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  async update(id: number, body: UpdateArticleDto) {
+    const updateArticle = await this.articlesRepository
+      .createQueryBuilder()
+      .update()
+      .set({ title: body.title, contents: body.contents })
+      .where('id = :id', { id })
+      .execute();
+    return true;
   }
 
   remove(id: number) {
@@ -63,5 +69,6 @@ export class ArticlesService {
       .set({ hits: () => 'hits + 1' })
       .where('id = :id', { id })
       .execute();
+    return true;
   }
 }
