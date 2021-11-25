@@ -58,8 +58,15 @@ export class ArticlesService {
     return true;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} article`;
+  async remove(id: number, userId: number) {
+    const softDeleteArticle = await this.articlesRepository
+      .createQueryBuilder()
+      .softDelete()
+      .where('id = :id', { id })
+      .andWhere('usersId = :userId', { userId })
+      .execute();
+
+    return softDeleteArticle;
   }
 
   async updateHit(id: number) {

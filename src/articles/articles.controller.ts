@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  NotFoundException,
 } from '@nestjs/common';
 import { User } from 'src/decorators/user.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
@@ -45,8 +46,15 @@ export class ArticlesController {
     return this.articlesService.update(+id, body);
   }
 
+  //게시글 삭제
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articlesService.remove(+id);
+  async remove(@Param('id') id: string, @User() user) {
+    const deleteResponse = await this.articlesService.remove(+id, user.id);
+    if (!deleteResponse.affected) {
+      //나중에 익셉션부분 수정해줄 것(익셉션필터로)
+      throw new NotFoundException();
+    }
+    return true;
   }
 }
