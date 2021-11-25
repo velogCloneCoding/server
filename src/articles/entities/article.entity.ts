@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Users } from '../../users/entities/user.entity';
 import { Comments } from '../../comments/entities/comment.entity';
@@ -30,7 +31,7 @@ export class Articles {
   })
   createdAt: Date | null;
 
-  @Column('timestamp', { name: 'UPDATED_AT', nullable: true })
+  @UpdateDateColumn({ type: 'timestamp', name: 'UPDATED_AT', nullable: true })
   updatedAt: Date | null;
 
   @DeleteDateColumn({ type: 'timestamp', name: 'DELETED_AT', nullable: true })
