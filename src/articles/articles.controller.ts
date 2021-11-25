@@ -42,8 +42,23 @@ export class ArticlesController {
   //게시글 수정
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: UpdateArticleDto) {
-    return this.articlesService.update(+id, body.title, body.contents);
+  async update(
+    @Param('id') id: string,
+    @User() user,
+    @Body() body: UpdateArticleDto,
+  ) {
+    const updateResponse = await this.articlesService.update(
+      +id,
+      user.id,
+      body.title,
+      body.contents,
+    );
+    if (!updateResponse) {
+      //나중에 익셉션필터를 만들어 넣어줄 것
+      throw new NotFoundException();
+    }
+
+    return true;
   }
 
   //게시글 삭제
