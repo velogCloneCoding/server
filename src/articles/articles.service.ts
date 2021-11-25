@@ -48,11 +48,11 @@ export class ArticlesService {
     return article;
   }
 
-  async update(id: number, body: UpdateArticleDto) {
+  async update(id: number, title: string, contents: string) {
     const updateArticle = await this.articlesRepository
       .createQueryBuilder()
       .update()
-      .set({ title: body.title, contents: body.contents })
+      .set({ title, contents })
       .where('id = :id', { id })
       .execute();
     return true;
