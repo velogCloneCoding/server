@@ -1,5 +1,6 @@
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -32,7 +33,7 @@ export class Articles {
   @Column('timestamp', { name: 'UPDATED_AT', nullable: true })
   updatedAt: Date | null;
 
-  @Column('timestamp', { name: 'DELETED_AT', nullable: true })
+  @DeleteDateColumn({ type: 'timestamp', name: 'DELETED_AT', nullable: true })
   deletedAt: Date | null;
 
   @Column('int', { name: 'USERS_ID' })
