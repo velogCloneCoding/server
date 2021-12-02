@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Articles } from './entities/article.entity';
 
@@ -12,24 +11,74 @@ export class ArticlesService {
     private readonly articlesRepository: Repository<Articles>,
   ) {}
 
-  create(createArticleDto: CreateArticleDto) {
-    return 'This action adds a new article';
+  //Note: Article을 생성하는 로직입니다.
+  async create(title: string, contents: string, usersId: number) {
+    return await this.articlesRepository.save({
+      title,
+      contents,
+      usersId,
+    });
   }
 
   async findAll() {
-    const articles = await this.articlesRepository.find();
+    const articles = await this.articlesRepository
+      .createQueryBuilder('A')
+      .select(['A.id', 'A.title', 'A.createdAt'])
+      .orderBy('A.id', 'DESC')
+      .limit(10)
+      .getMany();
+
     return articles;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} article`;
+  async findOne(id: number) {
+    const article = await this.articlesRepository
+      .createQueryBuilder('A')
+      .select([
+        'A.id',
+        'A.title',
+        'A.contents',
+        'A.createdAt',
+        'A.usersId',
+        'A.hits',
+      ])
+      .innerJoinAndSelect('A.comments', 'C')
+      .where('A.id = :id', { id })
+      .getOne();
+
+    return article;
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  async update(id: number, userId: number, title: string, contents: string) {
+    const updateArticle = await this.articlesRepository
+      .createQueryBuilder()
+      .update()
+      .set({ title, contents })
+      .where('id = :id', { id })
+      .andWhere('usersId = :userId', { userId })
+      .execute();
+
+    return updateArticle;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} article`;
+  async remove(id: number, userId: number) {
+    const softDeleteArticle = await this.articlesRepository
+      .createQueryBuilder()
+      .softDelete()
+      .where('id = :id', { id })
+      .andWhere('usersId = :userId', { userId })
+      .execute();
+
+    return softDeleteArticle;
+  }
+
+  async updateHit(id: number) {
+    const hit = await this.articlesRepository
+      .createQueryBuilder()
+      .update()
+      .set({ hits: () => 'hits + 1' })
+      .where('id = :id', { id })
+      .execute();
+    return true;
   }
 }

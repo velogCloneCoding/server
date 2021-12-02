@@ -31,7 +31,7 @@ export class UsersController {
   // NOTE : 단일 유저 조회
   // NOTE : 유저의 패스워드를 제외한 모든 정보가 필요
   @UseGuards(JwtAuthGuard)
-  @Get('read')
+  @Get('user-info')
   findOne(@User() user) {
     return this.usersService.findOne(user.id);
   }
