@@ -31,6 +31,7 @@ const ORMConfig: any & ConnectionOptions = {
       : process.env.DB_DATABASE,
   entities: [Users, Comments, CommentsRelations, Articles],
   synchronize: false,
+  // dateStrings: true,
   charset: 'utf8mb4',
   logging: true,
   keepConnectionAlive: true,
