@@ -42,6 +42,7 @@ export class ArticlesService {
         'A.usersId',
         'A.hits',
       ])
+      .innerJoinAndSelect('A.comments', 'C')
       .where('A.id = :id', { id })
       .getOne();
 
