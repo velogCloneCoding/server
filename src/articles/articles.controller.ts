@@ -9,6 +9,7 @@ import {
   UseGuards,
   NotFoundException,
 } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ArticlesService } from './articles.service';
@@ -20,13 +21,14 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   //게시글 생성 (글쓰기)
+  @ApiOperation({ summary: '게시글 생성' })
   @UseGuards(JwtAuthGuard)
   @Post()
   createArticle(@Body() body: CreateArticleDto, @User() user) {
     return this.articlesService.create(body.title, body.contents, user.id);
   }
 
-  //자신의 게시글 목록 가져오기
+  //게시글 목록 가져오기
   @Get()
   findAll() {
     return this.articlesService.findAll();
@@ -35,6 +37,7 @@ export class ArticlesController {
   //게시글 내용 가져오기
   @Get(':id')
   async findOne(@Param('id') id: string) {
+    //나중에 파이프를 사용해서 @Param('id, new ParseIntPipe()) id : number 이렇게 고치자
     await this.articlesService.updateHit(+id);
     return await this.articlesService.findOne(+id);
   }

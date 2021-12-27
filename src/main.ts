@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 declare const module: any;
 
@@ -12,6 +11,7 @@ async function bootstrap() {
   // app.useGlobalInterceptors(new TransformInterceptor());
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('velog api')
     .setDescription('velog 개발을 위한 api 문서입니다.')
     .setVersion('1.0')

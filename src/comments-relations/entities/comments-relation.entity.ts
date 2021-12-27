@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToOne,
+  PrimaryColumn,
 } from 'typeorm';
 import { Comments } from '../../comments/entities/comment.entity';
 
@@ -16,7 +17,7 @@ export class CommentsRelations {
   @Column('int', { name: 'PARENT', nullable: true })
   parent: number | null;
 
-  @Column('int', { name: 'CHILD', nullable: true, unique: true })
+  @PrimaryColumn({ type: 'int', name: 'CHILD' })
   child: number | null;
 
   @ManyToOne(() => Comments, (comments) => comments.commentsRelations, {

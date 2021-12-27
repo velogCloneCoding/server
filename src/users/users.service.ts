@@ -26,8 +26,6 @@ export class UsersService {
     });
   }
 
-  logIn(email: string, password: string) {}
-
   findAll() {
     return `This action returns all users`;
   }
@@ -68,6 +66,7 @@ export class UsersService {
     //   )
     //   .where('user.ID = :id', { id })
     //   .getRawMany();
+
     // 레포지토리 패턴을 이용하기
     return await this.usersRepository.find({
       relations: ['articles', 'comments'],
@@ -88,6 +87,7 @@ export class UsersService {
     //   .where({ id })
     //   .getMany();
     // return user;
+
     // // 성능 개선하기, 병렬 처리, 앱 조인
     // console.time('single');
     // await this.usersRepository.findOneOrFail(id);

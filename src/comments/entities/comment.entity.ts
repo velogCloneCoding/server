@@ -19,6 +19,9 @@ export class Comments {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
+  @Column('longtext', { name: 'CONTENTS' })
+  contents: string;
+
   @Column('timestamp', {
     name: 'CREATED_AT',
     nullable: true,

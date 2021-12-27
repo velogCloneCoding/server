@@ -11,7 +11,9 @@ describe('CommentsRelationsController', () => {
       providers: [CommentsRelationsService],
     }).compile();
 
-    controller = module.get<CommentsRelationsController>(CommentsRelationsController);
+    controller = module.get<CommentsRelationsController>(
+      CommentsRelationsController,
+    );
   });
 
   it('should be defined', () => {
