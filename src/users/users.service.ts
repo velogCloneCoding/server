@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,16 +13,18 @@ export class UsersService {
     private readonly usersRepository: Repository<Users>,
   ) {}
 
-  async create(email: string, password: string) {
-    const user = await this.usersRepository.findOne({ where: { email } });
+  async create(body: CreateUserDto) {
+    const user = await this.usersRepository.findOne({
+      where: { email: body.email },
+    });
     if (user) {
       throw new UnauthorizedException('이미 존재하는 사용자입니다.');
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(body.password, 12);
 
     await this.usersRepository.save({
-      email,
+      email: body.email,
       password: hashedPassword,
     });
   }

@@ -13,20 +13,21 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { UserId } from 'src/decorators/userId.decorator';
 
 @ApiTags('USERS')
 @Controller('api/users')
 export class UsersController {
   constructor(
     private readonly usersService: UsersService,
-    private authService: AuthService,
+    private readonly authService: AuthService,
   ) {}
 
   // NOTE : 유저 회원가입
   @ApiOperation({ summary: '회원가입' })
   @Post('join')
-  join(@Body() body: CreateUserDto) {
-    return this.usersService.create(body.email, body.password);
+  async join(@Body() body: CreateUserDto) {
+    return await this.usersService.create(body);
   }
 
   // NOTE : 유저 로그인
@@ -45,8 +46,8 @@ export class UsersController {
   })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  logIn(@User() user: LogInUserDto) {
-    return this.authService.login(user);
+  async logIn(@User() user: LogInUserDto) {
+    return await this.authService.login(user);
   }
 
   // NOTE : 여기는 유저 브랜치입니다.
@@ -56,7 +57,7 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('user-info')
-  findOne(@User() user) {
-    return this.usersService.findOne(user.id);
+  async findOne(@UserId() userId) {
+    return await this.usersService.findOne(userId);
   }
 }

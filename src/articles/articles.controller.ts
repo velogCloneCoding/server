@@ -8,9 +8,14 @@ import {
   Delete,
   UseGuards,
   NotFoundException,
+  Query,
+  ParseIntPipe,
+  DefaultValuePipe,
+  Put,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
+import { UserId } from 'src/decorators/userId.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -22,57 +27,62 @@ export class ArticlesController {
 
   //게시글 생성 (글쓰기)
   @ApiOperation({ summary: '게시글 생성' })
+  @ApiHeader({
+    name: 'authorization',
+  })
   @UseGuards(JwtAuthGuard)
   @Post()
-  createArticle(@Body() body: CreateArticleDto, @User() user) {
-    return this.articlesService.create(body.title, body.contents, user.id);
+  async createArticle(@Body() body: CreateArticleDto, @User() user) {
+    return await this.articlesService.create(body, user.id);
   }
 
   //게시글 목록 가져오기
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  async findAll(
+    @Query('page', new ParseIntPipe(), new DefaultValuePipe(1)) page: number,
+  ) {
+    return await this.articlesService.findAll(page);
   }
 
   //게시글 내용 가져오기
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    //나중에 파이프를 사용해서 @Param('id, new ParseIntPipe()) id : number 이렇게 고치자
-    await this.articlesService.updateHit(+id);
-    return await this.articlesService.findOne(+id);
+  async findOne(@Param('id', new ParseIntPipe()) id: number) {
+    return await this.articlesService.findOne(id);
   }
 
   //게시글 수정
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @Put(':id')
   async update(
-    @Param('id') id: string,
-    @User() user,
+    @Param('id', new ParseIntPipe()) id: number,
+    @UserId() userId: number,
     @Body() body: UpdateArticleDto,
   ) {
-    const updateResponse = await this.articlesService.update(
-      +id,
-      user.id,
-      body.title,
-      body.contents,
-    );
-    if (!updateResponse) {
-      //나중에 익셉션필터를 만들어 넣어줄 것
-      throw new NotFoundException();
-    }
-
-    return true;
+    return await this.articlesService.update(id, userId, body);
   }
 
   //게시글 삭제
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string, @User() user) {
-    const deleteResponse = await this.articlesService.remove(+id, user.id);
+  async remove(
+    @Param('id', new ParseIntPipe()) id: number,
+    @UserId() userId: number,
+  ) {
+    const deleteResponse = await this.articlesService.remove(id, userId);
     if (!deleteResponse.affected) {
       //나중에 익셉션부분 수정해줄 것(익셉션필터로)
       throw new NotFoundException();
     }
     return true;
+  }
+
+  @Get('test/:id')
+  async test(@Param('id') id: string) {
+    console.log('good');
+    console.log();
+    console.log();
+    console.log();
+    console.log();
+    return await this.articlesService.findOne(+id);
   }
 }

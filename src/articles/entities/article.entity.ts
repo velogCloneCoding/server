@@ -12,6 +12,13 @@ import {
 import { Users } from '../../users/entities/user.entity';
 import { Comments } from '../../comments/entities/comment.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsNotEmpty,
+  IsString,
+  Length,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 @Index('fk_ARTICLES_USERS_idx', ['usersId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -27,6 +34,9 @@ export class Articles {
     description: '게시글 제목',
   })
   @Column('varchar', { name: 'TITLE', length: 135 })
+  @IsNotEmpty()
+  @Length(1, 255)
+  @IsString()
   title: string;
 
   @ApiProperty({
