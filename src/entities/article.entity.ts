@@ -12,13 +12,7 @@ import {
 import { Users } from './user.entity';
 import { Comments } from './comment.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  Length,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 @Index('fk_ARTICLES_USERS_idx', ['userId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -38,6 +32,9 @@ export class Articles {
   @Length(1, 255)
   @IsString()
   title: string;
+
+  @Column('varchar', { name: 'thumbnail', length: 500 })
+  thumbnail: string;
 
   @ApiProperty({
     example: '게시글 내용입니다.',
