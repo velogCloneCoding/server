@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { Comments } from '../../comments/entities/comment.entity';
+import { Comments } from '../../entities/comment.entity';
 
 @Index('CHILD_UNIQUE', ['child'], { unique: true })
 @Index('fk_COMMENTS_has_COMMENTS_COMMENTS2_idx', ['child'], {})

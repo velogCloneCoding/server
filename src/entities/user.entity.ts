@@ -12,8 +12,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Articles } from '../../articles/entities/article.entity';
-import { Comments } from '../../comments/entities/comment.entity';
+import { Articles } from './article.entity';
+import { Comments } from './comment.entity';
 
 @Index('githubId_UNIQUE', ['githubId'], { unique: true })
 @Entity('USERS', { schema: 'velog' })

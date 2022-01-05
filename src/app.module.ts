@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { ArticlesModule } from './articles/articles.module';
-import { CommentsModule } from './comments/comments.module';
+import { UsersModule } from './res/users/users.module';
+import { ArticlesModule } from './res/articles/articles.module';
+import { CommentsModule } from './res/comments/comments.module';
 import { CommentsRelationsModule } from './comments-relations/comments-relations.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Users } from './users/entities/user.entity';
-import { Comments } from './comments/entities/comment.entity';
+import { Users } from './entities/user.entity';
+import { Comments } from './entities/comment.entity';
 import { CommentsRelations } from './comments-relations/entities/comments-relation.entity';
-import { Articles } from './articles/entities/article.entity';
+import { Articles } from './entities/article.entity';
 
 import * as dotenv from 'dotenv';
 import { AuthModule } from './auth/auth.module';

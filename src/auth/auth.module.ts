@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GithubStrategy } from 'src/guards/strategies/github.strategy';
 import { JwtStrategy } from 'src/guards/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/guards/strategies/local.strategy';
-import { Users } from 'src/users/entities/user.entity';
-import { UsersService } from 'src/users/users.service';
+import { Users } from 'src/entities/user.entity';
+import { UsersService } from 'src/res/users/users.service';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
 

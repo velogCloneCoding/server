@@ -18,8 +18,8 @@ import { User } from 'src/decorators/user.decorator';
 import { UserId } from 'src/decorators/userId.decorator';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { ArticlesService } from './articles.service';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
+import { CreateArticleDto } from '../../dto/create-article.dto';
+import { UpdateArticleDto } from '../../dto/update-article.dto';
 
 @Controller('api/articles')
 export class ArticlesController {

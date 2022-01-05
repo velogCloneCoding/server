@@ -9,8 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Users } from '../../users/entities/user.entity';
-import { Comments } from '../../comments/entities/comment.entity';
+import { Users } from './user.entity';
+import { Comments } from './comment.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,

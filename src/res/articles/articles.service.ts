@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
-import { Articles } from './entities/article.entity';
+import { CreateArticleDto } from '../../dto/create-article.dto';
+import { UpdateArticleDto } from '../../dto/update-article.dto';
+import { Articles } from '../../entities/article.entity';
 
 @Injectable()
 export class ArticlesService {

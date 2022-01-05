@@ -8,9 +8,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Articles } from '../../articles/entities/article.entity';
-import { Users } from '../../users/entities/user.entity';
-import { CommentsRelations } from '../../comments-relations/entities/comments-relation.entity';
+import { Articles } from './article.entity';
+import { Users } from './user.entity';
+import { CommentsRelations } from '../comments-relations/entities/comments-relation.entity';
 
 @Index('fk_COMMENTS_ARTICLES1_idx', ['articlesId'], {})
 @Index('fk_COMMENTS_USERS1_idx', ['usersId'], {})
