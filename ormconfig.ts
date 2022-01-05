@@ -1,9 +1,9 @@
 import { ConnectionOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { Users } from './src/users/entities/user.entity';
-import { Comments } from './src/comments/entities/comment.entity';
+import { Users } from './src/entities/user.entity';
+import { Comments } from './src/entities/comment.entity';
 import { CommentsRelations } from './src/comments-relations/entities/comments-relation.entity';
-import { Articles } from './src/articles/entities/article.entity';
+import { Articles } from './src/entities/article.entity';
 
 dotenv.config();
 
