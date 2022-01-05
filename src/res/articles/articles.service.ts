@@ -13,10 +13,10 @@ export class ArticlesService {
   ) {}
 
   //Note: Article을 생성하는 로직입니다.
-  async create(body: CreateArticleDto, usersId: number) {
+  async create(body: CreateArticleDto, userId: number) {
     return await this.articlesRepository.save({
       ...body,
-      usersId,
+      userId,
     });
   }
 
@@ -37,7 +37,7 @@ export class ArticlesService {
       .createQueryBuilder('A')
       .select(['A.id', 'A.title', 'A.contents'])
       .withDeleted()
-      .leftJoinAndMapOne('A.users', 'A.users', 'U', 'U.id = A.usersId')
+      .leftJoinAndMapOne('A.users', 'A.users', 'U', 'U.id = A.userId')
       .getMany();
 
     console.log(article);
@@ -49,7 +49,7 @@ export class ArticlesService {
     //     'A.title',
     //     'A.contents',
     //     'A.createdAt',
-    //     'A.usersId',
+    //     'A.userId',
     //     'A.hits',
     //   ])
     //   .innerJoinAndSelect('A.comments', 'C')
@@ -59,9 +59,9 @@ export class ArticlesService {
     return article;
   }
 
-  async update(id: number, usersId: number, body: UpdateArticleDto) {
+  async update(id: number, userId: number, body: UpdateArticleDto) {
     const [article] = await this.articlesRepository.find({
-      where: { id, usersId },
+      where: { id, userId },
       take: 1,
     });
 
@@ -77,7 +77,7 @@ export class ArticlesService {
       .createQueryBuilder()
       .softDelete()
       .where('id = :id', { id })
-      .andWhere('usersId = :userId', { userId })
+      .andWhere('userId = :userId', { userId })
       .execute();
 
     return softDeleteArticle;
