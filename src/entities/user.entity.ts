@@ -5,9 +5,6 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -19,28 +16,28 @@ import { Comments } from './comment.entity';
 @Entity('USERS', { schema: 'velog' })
 export class Users {
   @ApiProperty({ description: '유저 index' })
-  @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
   @ApiProperty({
     description: '유저 Github 아이디',
     example: '준비중입니다.',
   })
-  @Column('int', { name: 'GITHUB_ID', nullable: true, unique: true })
+  @Column('int', { name: 'github_id', nullable: true, unique: true })
   githubId: number | null;
 
   @ApiProperty({
     description: 'Github 프로필사진',
     example: '준비중입니다.',
   })
-  @Column('longtext', { name: 'GITHUB_PROFILE', nullable: true })
+  @Column('longtext', { name: 'github_profile', nullable: true })
   githubProfile: string | null;
 
   @ApiProperty({
     description: '이메일',
     example: 'example@gmail.com',
   })
-  @Column('varchar', { name: 'EMAIL', nullable: true, length: 45 })
+  @Column('varchar', { name: 'email', nullable: true, length: 45 })
   email: string | null;
 
   @ApiProperty({
@@ -48,7 +45,7 @@ export class Users {
     example: '1234567890!',
   })
   @Column('varchar', {
-    name: 'PASSWORD',
+    name: 'password',
     nullable: true,
     length: 200,
     select: false,
@@ -59,21 +56,21 @@ export class Users {
     description: '회원가입 날짜',
     example: '2022-02-22 22:22:22',
   })
-  @CreateDateColumn({ name: 'CREATED_AT' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date | null;
 
   @ApiProperty({
     description: '최근 유저정보 수정 날짜',
     example: '2022-02-22 22:22:22',
   })
-  @UpdateDateColumn({ name: 'UPDATED_AT' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date | null;
 
   @ApiProperty({
     description: '회원탈퇴 날짜',
     example: '2022-02-22 22:22:22',
   })
-  @DeleteDateColumn({ name: 'DELETED_AT' })
+  @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: Date | null;
 
   @OneToMany(() => Articles, (articles) => articles.users)
