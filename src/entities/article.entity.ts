@@ -13,6 +13,7 @@ import { Users } from './user.entity';
 import { Comments } from './comment.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { ArticleImages } from './article-image.entity';
 
 @Index('fk_ARTICLES_USERS_idx', ['userId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -87,4 +88,7 @@ export class Articles {
 
   @OneToMany(() => Comments, (comments) => comments.articles)
   comments: Comments[];
+
+  @OneToMany(() => ArticleImages, (articleImages) => articleImages.articles)
+  articleImages: ArticleImages[];
 }

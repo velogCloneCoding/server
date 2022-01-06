@@ -1,12 +1,14 @@
 import {
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
-  OneToMany,
+  ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
 import { Articles } from './article.entity';
 
+// @Index('fk_ARTICLE_IMAGES_ARTICLES_idx', ['articleId'], {})
 @Entity('ARTICLE_IMAGES', { schema: 'velog' })
 export class ArticleImages {
   @PrimaryColumn('int', { name: 'article_id' })
@@ -18,7 +20,7 @@ export class ArticleImages {
   @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
 
-  @OneToMany(() => Articles, (articles) => articles.id)
+  @ManyToOne(() => Articles, (articles) => articles.articleImages)
   @JoinColumn({ name: 'article_id', referencedColumnName: 'id' })
-  articles: Articles[];
+  articles: Articles;
 }
