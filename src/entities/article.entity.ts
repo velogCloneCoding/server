@@ -36,7 +36,7 @@ export class Articles {
   @IsString()
   title: string;
 
-  @Column('varchar', { name: 'thumbnail', length: 500 })
+  @Column('varchar', { name: 'thumbnail', length: 500, nullable: true })
   thumbnail: string;
 
   @ApiProperty({
@@ -51,10 +51,10 @@ export class Articles {
   })
   @Column('timestamp', {
     name: 'created_at',
-    nullable: true,
+    nullable: false,
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date | null;
+  createdAt: Date;
 
   @ApiProperty({
     description: '게시글 수정 날짜',

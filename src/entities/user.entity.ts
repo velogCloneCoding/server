@@ -60,21 +60,21 @@ export class Users {
     description: '회원가입 날짜',
     example: '2022-02-22 22:22:22',
   })
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date | null;
+  @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
+  createdAt: Date;
 
   @ApiProperty({
     description: '최근 유저정보 수정 날짜',
     example: '2022-02-22 22:22:22',
   })
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
   updatedAt: Date | null;
 
   @ApiProperty({
     description: '회원탈퇴 날짜',
     example: '2022-02-22 22:22:22',
   })
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
 
   @OneToMany(() => Articles, (articles) => articles.users)

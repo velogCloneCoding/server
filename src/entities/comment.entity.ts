@@ -23,7 +23,7 @@ export class Comments {
 
   @Column('timestamp', {
     name: 'created_at',
-    nullable: true,
+    nullable: false,
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date | null;
@@ -40,7 +40,7 @@ export class Comments {
   @Column('int', { name: 'user_id' })
   userId: number;
 
-  @Column('int', { name: 'parent_id' })
+  @Column('int', { name: 'parent_id', nullable: true })
   parentId: number;
 
   @ManyToOne(() => Articles, (articles) => articles.comments, {
