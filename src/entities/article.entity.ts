@@ -94,5 +94,5 @@ export class Articles {
   articleImages: ArticleImages[];
 
   @OneToMany(() => ArticleLikes, (articleLikes) => articleLikes.articles)
-  articleLikes: ArticleLikes;
+  articleLikes: ArticleLikes[];
 }
