@@ -16,6 +16,7 @@ import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { ArticleImages } from './article-image.entity';
 import { ArticleLikes } from './article-like.entity';
 import { ArticleHits } from './article-hit.entity';
+import { SeriesArticlesHasArticles } from './relation/series-article-has-article.entity';
 
 @Index('fk_ARTICLES_USERS_idx', ['userId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -92,4 +93,10 @@ export class Articles {
 
   @OneToMany(() => ArticleHits, (articleHits) => articleHits.articles)
   articleHits: ArticleHits[];
+
+  @OneToMany(
+    () => SeriesArticlesHasArticles,
+    (seriesArticlesHasArticles) => seriesArticlesHasArticles.articles,
+  )
+  seriesArticlesHasArticles: SeriesArticlesHasArticles[];
 }

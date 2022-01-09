@@ -5,9 +5,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { SeriesArticlesHasArticles } from './relation/series-article-has-article.entity';
 import { Users } from './user.entity';
 
 @Entity('SERIES_ARTICLES', { schema: 'velog' })
@@ -36,4 +38,10 @@ export class SeriesArticles {
   @ManyToOne(() => Users, (users) => users.seriesArticles)
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   users: Users;
+
+  @OneToMany(
+    () => SeriesArticlesHasArticles,
+    (seriesArticlesHasArticles) => seriesArticlesHasArticles.seriesArticles,
+  )
+  seriesArticlesHasArticles: SeriesArticlesHasArticles[];
 }
