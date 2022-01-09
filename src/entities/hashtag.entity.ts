@@ -6,7 +6,7 @@ export class Hashtags {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'name' })
+  @Column('varchar', { name: 'name', length: 15 })
   name: string;
 
   @OneToMany(
