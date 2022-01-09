@@ -10,7 +10,6 @@ import {
 } from 'typeorm';
 import { Articles } from './article.entity';
 import { Users } from './user.entity';
-import { CommentsRelations } from '../comments-relations/entities/comments-relation.entity';
 
 @Index('fk_COMMENTS_ARTICLES1_idx', ['articleId'], {})
 @Index('fk_COMMENTS_USERS1_idx', ['userId'], {})
@@ -41,6 +40,9 @@ export class Comments {
   @Column('int', { name: 'user_id' })
   userId: number;
 
+  @Column('int', { name: 'parent_id' })
+  parentId: number;
+
   @ManyToOne(() => Articles, (articles) => articles.comments, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
@@ -55,15 +57,7 @@ export class Comments {
   @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
   users: Users;
 
-  @OneToMany(
-    () => CommentsRelations,
-    (commentsRelations) => commentsRelations.parent2,
-  )
-  commentsRelations: CommentsRelations[];
-
-  @OneToOne(
-    () => CommentsRelations,
-    (commentsRelations) => commentsRelations.child2,
-  )
-  commentsRelations2: CommentsRelations;
+  @OneToOne(() => Comments, (comments) => comments.comments)
+  @JoinColumn([{ name: 'parent_id', referencedColumnName: 'id' }])
+  comments: Comments;
 }
