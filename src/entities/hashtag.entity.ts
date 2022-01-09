@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('HASHTAG', { schema: 'velog' })
-export class Hashtag {
+@Entity('HASHTAGS', { schema: 'velog' })
+export class Hashtags {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
