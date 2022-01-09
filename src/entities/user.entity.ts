@@ -6,12 +6,14 @@ import {
   Entity,
   Index,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ArticleHits } from './article-hit.entity';
 import { Articles } from './article.entity';
 import { Comments } from './comment.entity';
+import { Introductions } from './introduction.entity';
 
 @Index('githubId_UNIQUE', ['githubId'], { unique: true })
 @Entity('USERS', { schema: 'velog' })
@@ -82,6 +84,9 @@ export class Users {
 
   @OneToMany(() => ArticleHits, (articleHits) => articleHits.users)
   articleHits: ArticleHits[];
+
+  @OneToOne(() => Introductions, (introductions) => introductions.users)
+  introductions: Introductions;
 
   // @ManyToMany(() => Desk, (desk) => desk.users)
   // @JoinTable({
