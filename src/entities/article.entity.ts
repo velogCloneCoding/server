@@ -15,6 +15,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { ArticleImages } from './article-image.entity';
 import { ArticleLikes } from './article-like.entity';
+import { ArticleHits } from './article-hit.entity';
 
 @Index('fk_ARTICLES_USERS_idx', ['userId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -73,13 +74,6 @@ export class Articles {
   @Column('int', { name: 'user_id' })
   userId: number;
 
-  @ApiProperty({
-    example: 10,
-    description: '조회수',
-  })
-  @Column('int', { name: 'hits', default: () => "'0'" })
-  hits: number;
-
   @ManyToOne(() => Users, (users) => users.articles, {
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION',
@@ -95,4 +89,7 @@ export class Articles {
 
   @OneToMany(() => ArticleLikes, (articleLikes) => articleLikes.articles)
   articleLikes: ArticleLikes[];
+
+  @OneToMany(() => ArticleHits, (articleHits) => articleHits.articles)
+  articleHits: ArticleHits[];
 }

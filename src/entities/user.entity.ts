@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ArticleHits } from './article-hit.entity';
 import { Articles } from './article.entity';
 import { Comments } from './comment.entity';
 
@@ -78,6 +79,9 @@ export class Users {
 
   @OneToMany(() => Comments, (comments) => comments.users)
   comments: Comments[];
+
+  @OneToMany(() => ArticleHits, (articleHits) => articleHits.users)
+  articleHits: ArticleHits[];
 
   // @ManyToMany(() => Desk, (desk) => desk.users)
   // @JoinTable({
