@@ -14,6 +14,7 @@ import { ArticleHits } from './article-hit.entity';
 import { Articles } from './article.entity';
 import { Comments } from './comment.entity';
 import { Introductions } from './introduction.entity';
+import { SeriesArticles } from './series-article.entity';
 
 @Index('githubId_UNIQUE', ['githubId'], { unique: true })
 @Entity('USERS', { schema: 'velog' })
@@ -87,6 +88,9 @@ export class Users {
 
   @OneToOne(() => Introductions, (introductions) => introductions.users)
   introductions: Introductions;
+
+  @OneToMany(() => SeriesArticles, (seriesArticles) => seriesArticles.users)
+  seriesArticles: SeriesArticles[];
 
   // @ManyToMany(() => Desk, (desk) => desk.users)
   // @JoinTable({
