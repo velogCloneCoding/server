@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ArticlesHasHashtags } from './relation/article-has-hashtag.entity';
 
 @Entity('HASHTAGS', { schema: 'velog' })
 export class Hashtags {
@@ -7,4 +8,10 @@ export class Hashtags {
 
   @Column('varchar', { name: 'name' })
   name: string;
+
+  @OneToMany(
+    () => ArticlesHasHashtags,
+    (articlesHasHashtags) => articlesHasHashtags.hashtag,
+  )
+  articlesHasHashtags: ArticlesHasHashtags[];
 }

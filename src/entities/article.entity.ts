@@ -17,6 +17,7 @@ import { ArticleImages } from './article-image.entity';
 import { ArticleLikes } from './article-like.entity';
 import { ArticleHits } from './article-hit.entity';
 import { SeriesArticlesHasArticles } from './relation/series-article-has-article.entity';
+import { ArticlesHasHashtags } from './relation/article-has-hashtag.entity';
 
 @Index('fk_ARTICLES_USERS_idx', ['userId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
@@ -99,4 +100,10 @@ export class Articles {
     (seriesArticlesHasArticles) => seriesArticlesHasArticles.articles,
   )
   seriesArticlesHasArticles: SeriesArticlesHasArticles[];
+
+  @OneToMany(
+    () => ArticlesHasHashtags,
+    (articlesHasHashtags) => articlesHasHashtags.articles,
+  )
+  articlesHasHashtags: ArticlesHasHashtags[];
 }
