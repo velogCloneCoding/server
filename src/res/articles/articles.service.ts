@@ -84,12 +84,12 @@ export class ArticlesService {
   }
 
   //조회수는 따로 테이블을 만들 것.
-  async updateHit(id: number) {
-    const hit = await this.articlesRepository
-      .createQueryBuilder()
-      .update()
-      .set({ hits: () => 'hits + 1' })
-      .where('id = :id', { id })
-      .execute();
-  }
+  // async updateHit(id: number) {
+  //   const hit = await this.articlesRepository
+  //     .createQueryBuilder()
+  //     .update()
+  //     .set({ hits: () => 'hits + 1' })
+  //     .where('id = :id', { id })
+  //     .execute();
+  // }
 }
