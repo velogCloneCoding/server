@@ -14,10 +14,7 @@ export class ArticlesService {
 
   //Note: Article을 생성하는 로직입니다.
   async create(body: CreateArticleDto, userId: number) {
-    return await this.articlesRepository.save({
-      ...body,
-      userId,
-    });
+    return await this.articlesRepository.save({ ...body, userId });
   }
 
   async findAll(page: number) {
