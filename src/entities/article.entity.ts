@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
@@ -51,10 +52,10 @@ export class Articles {
   @ApiProperty({
     description: '게시글 생성 날짜',
   })
-  @Column('timestamp', {
+  @CreateDateColumn({
+    type: 'timestamp',
     name: 'created_at',
     nullable: false,
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
