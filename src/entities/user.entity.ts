@@ -24,14 +24,19 @@ export class Users {
   id: number;
 
   @ApiProperty({
-    description: '유저 Github 아이디',
+    description: '유저 OAuth 아이디',
     example: '준비중입니다.',
   })
-  @Column('int', { name: 'github_id', nullable: true, unique: true })
-  githubId: number | null;
+  @Column('varchar', {
+    name: 'oauth_id',
+    nullable: true,
+    length: 45,
+    unique: true,
+  })
+  oauthId: string | null;
 
   @ApiProperty({
-    description: 'Github 프로필사진',
+    description: '프로필사진',
     example: '준비중입니다.',
   })
   @Column('varchar', { name: 'profile', nullable: true, length: 500 })
