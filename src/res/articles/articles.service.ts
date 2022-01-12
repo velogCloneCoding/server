@@ -40,8 +40,6 @@ export class ArticlesService {
       .leftJoinAndMapOne('A.users', 'A.users', 'U', 'U.id = A.userId')
       .getMany();
 
-    console.log(article);
-
     // const article = await this.articlesRepository
     //   .createQueryBuilder('A')
     //   .select([
