@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -21,10 +22,10 @@ export class Comments {
   @Column('longtext', { name: 'contents' })
   contents: string;
 
-  @Column('timestamp', {
+  @CreateDateColumn({
+    type: 'timestamp',
     name: 'created_at',
     nullable: false,
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date | null;
 
