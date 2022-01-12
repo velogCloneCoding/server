@@ -34,8 +34,8 @@ export class Users {
     description: 'Github 프로필사진',
     example: '준비중입니다.',
   })
-  @Column('longtext', { name: 'github_profile', nullable: true })
-  githubProfile: string | null;
+  @Column('varchar', { name: 'profile', nullable: true, length: 500 })
+  profile: string | null;
 
   @ApiProperty({
     description: '이메일',
