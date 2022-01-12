@@ -17,9 +17,6 @@ export class SeriesArticles {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column('varchar', { name: 'thumbnail', length: 500, nullable: true })
-  thumbnail: string;
-
   @Column('varchar', { name: 'title', length: 100 })
   title: string;
 
