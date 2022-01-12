@@ -1,20 +1,23 @@
 import {
+  Column,
   DeleteDateColumn,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Articles } from './article.entity';
 
 // @Index('fk_ARTICLE_IMAGES_ARTICLES_idx', ['articleId'], {})
 @Entity('ARTICLE_IMAGES', { schema: 'velog' })
 export class ArticleImages {
-  @PrimaryColumn('int', { name: 'article_id' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
+  id: number;
+
+  @Column('int', { name: 'article_id' })
   articleId: number;
 
-  @PrimaryColumn('varchar', { name: 'img_url', length: 500 })
+  @Column('varchar', { name: 'img_url', length: 500 })
   imgUrl: string;
 
   @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at', nullable: true })
@@ -31,5 +34,6 @@ export class ArticleImages {
 //3. composite pk를 이용해서 딱 하나의 이미지만 찾을 일이 없을 것 같아서 -> articles.contents를 꺼내오기 위해서 article_id만 이용해서 해당하는 img_url을 가져오는 로직만 사용할 것 같기 때문
 //4. 위의 이유를 종합해서 id 칼럼을 추가하는 것은 공간적으로 낭비라고 생각됨
 //나중에 가서 후회할 일이 생길까? 연습이니 만들어보고 나중에 봐보자.
-
 //+ 추가1. id값으로 설정한 pk를 사용할 일이 전혀 없을 것 같음
+
+//혹시 모르게 image를 특정할 일이 있을지도 모르므로 pk를 surrogate key를 사용하겠음
