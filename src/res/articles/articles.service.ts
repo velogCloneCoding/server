@@ -64,7 +64,7 @@ export class ArticlesService {
       throw new BadRequestException('해당하는 게시글이 없습니다.');
     }
 
-    return await this.articlesRepository.update(id, { ...body });
+    return await this.articlesRepository.update(id, body);
   }
 
   async remove(id: number, userId: number) {
@@ -74,8 +74,6 @@ export class ArticlesService {
       .where('id = :id', { id })
       .andWhere('userId = :userId', { userId })
       .execute();
-
-    return softDeleteArticle;
   }
 
   //조회수는 따로 테이블을 만들 것.
