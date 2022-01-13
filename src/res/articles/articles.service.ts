@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
-import { Articles } from './entities/article.entity';
+import { CreateArticleDto } from '../../dto/create-article.dto';
+import { UpdateArticleDto } from '../../dto/update-article.dto';
+import { Articles } from '../../entities/article.entity';
 
 @Injectable()
 export class ArticlesService {
@@ -13,11 +13,8 @@ export class ArticlesService {
   ) {}
 
   //Note: Article을 생성하는 로직입니다.
-  async create(body: CreateArticleDto, usersId: number) {
-    return await this.articlesRepository.save({
-      ...body,
-      usersId,
-    });
+  async create(body: CreateArticleDto, userId: number) {
+    return await this.articlesRepository.save({ ...body, userId });
   }
 
   async findAll(page: number) {
@@ -37,10 +34,8 @@ export class ArticlesService {
       .createQueryBuilder('A')
       .select(['A.id', 'A.title', 'A.contents'])
       .withDeleted()
-      .leftJoinAndMapOne('A.users', 'A.users', 'U', 'U.id = A.usersId')
+      .leftJoinAndMapOne('A.users', 'A.users', 'U', 'U.id = A.userId')
       .getMany();
-
-    console.log(article);
 
     // const article = await this.articlesRepository
     //   .createQueryBuilder('A')
@@ -49,7 +44,7 @@ export class ArticlesService {
     //     'A.title',
     //     'A.contents',
     //     'A.createdAt',
-    //     'A.usersId',
+    //     'A.userId',
     //     'A.hits',
     //   ])
     //   .innerJoinAndSelect('A.comments', 'C')
@@ -59,9 +54,9 @@ export class ArticlesService {
     return article;
   }
 
-  async update(id: number, usersId: number, body: UpdateArticleDto) {
+  async update(id: number, userId: number, body: UpdateArticleDto) {
     const [article] = await this.articlesRepository.find({
-      where: { id, usersId },
+      where: { id, userId },
       take: 1,
     });
 
@@ -69,7 +64,7 @@ export class ArticlesService {
       throw new BadRequestException('해당하는 게시글이 없습니다.');
     }
 
-    return await this.articlesRepository.update(id, { ...body });
+    return await this.articlesRepository.update(id, body);
   }
 
   async remove(id: number, userId: number) {
@@ -77,19 +72,17 @@ export class ArticlesService {
       .createQueryBuilder()
       .softDelete()
       .where('id = :id', { id })
-      .andWhere('usersId = :userId', { userId })
+      .andWhere('userId = :userId', { userId })
       .execute();
-
-    return softDeleteArticle;
   }
 
   //조회수는 따로 테이블을 만들 것.
-  async updateHit(id: number) {
-    const hit = await this.articlesRepository
-      .createQueryBuilder()
-      .update()
-      .set({ hits: () => 'hits + 1' })
-      .where('id = :id', { id })
-      .execute();
-  }
+  // async updateHit(id: number) {
+  //   const hit = await this.articlesRepository
+  //     .createQueryBuilder()
+  //     .update()
+  //     .set({ hits: () => 'hits + 1' })
+  //     .where('id = :id', { id })
+  //     .execute();
+  // }
 }

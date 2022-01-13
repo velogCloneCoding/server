@@ -1,9 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
-import { Users } from './src/users/entities/user.entity';
-import { Comments } from './src/comments/entities/comment.entity';
-import { CommentsRelations } from './src/comments-relations/entities/comments-relation.entity';
-import { Articles } from './src/articles/entities/article.entity';
 
 dotenv.config();
 
@@ -29,7 +25,7 @@ const ORMConfig: any & ConnectionOptions = {
     process.env.NODE_ENV === 'development'
       ? process.env.DEVELOPMENT_DB_DATABASE
       : process.env.DB_DATABASE,
-  entities: [Users, Comments, CommentsRelations, Articles],
+  entities: ['src/entities/**/*.ts'],
   synchronize: false,
   // dateStrings: true,
   charset: 'utf8mb4',
