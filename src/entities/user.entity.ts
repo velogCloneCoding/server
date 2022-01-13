@@ -16,7 +16,7 @@ import { Comments } from './comment.entity';
 import { Introductions } from './introduction.entity';
 import { SeriesArticles } from './series-article.entity';
 
-@Index('githubId_UNIQUE', ['githubId'], { unique: true })
+@Index('oauthId_UNIQUE', ['oauthId'], { unique: true })
 @Entity('USERS', { schema: 'velog' })
 export class Users {
   @ApiProperty({ description: '유저 index' })
