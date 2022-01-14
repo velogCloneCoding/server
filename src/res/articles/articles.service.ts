@@ -74,6 +74,9 @@ export class ArticlesService {
       .where('id = :id', { id })
       .andWhere('userId = :userId', { userId })
       .execute();
+
+    //삭제로직이므로 나중에 좀 삭제해보자.
+    return softDeleteArticle;
   }
 
   //조회수는 따로 테이블을 만들 것.
