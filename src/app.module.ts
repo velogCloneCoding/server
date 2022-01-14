@@ -5,24 +5,30 @@ import { UsersModule } from './res/users/users.module';
 import { ArticlesModule } from './res/articles/articles.module';
 import { CommentsModule } from './res/comments/comments.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import * as dotenv from 'dotenv';
 import { AuthModule } from './auth/auth.module';
-dotenv.config();
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: process.env.DB_TYPE as any,
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      dateStrings: true,
-      synchronize: false,
-      logging: true,
-      autoLoadEntities: true,
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const nodeEnv = configService.get('NODE_ENV');
+        return {
+          type: configService.get(`DB_TYPE`),
+          host: configService.get(`${nodeEnv}_DB_HOST`),
+          port: Number(configService.get(`${nodeEnv}_DB_PORT`)),
+          username: configService.get(`${nodeEnv}_DB_USERNAME`),
+          password: configService.get(`${nodeEnv}_DB_PASSWORD`),
+          database: configService.get(`${nodeEnv}_DB_DATABASE`),
+          dateStrings: true,
+          synchronize: false,
+          logging: true,
+          autoLoadEntities: true,
+        } as any;
+      },
     }),
     AuthModule,
     UsersModule,

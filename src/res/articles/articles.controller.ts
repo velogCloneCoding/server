@@ -71,6 +71,7 @@ export class ArticlesController {
     const deleteResponse = await this.articlesService.remove(id, userId);
     if (!deleteResponse.affected) {
       //나중에 익셉션부분 수정해줄 것(익셉션필터로)
+      //affected때문에 일단은, service의 remove의 return 값을 줄수밖에없다.
       throw new NotFoundException();
     }
     return true;
