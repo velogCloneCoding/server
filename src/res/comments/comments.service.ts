@@ -18,8 +18,14 @@ export class CommentsService {
     });
   }
 
-  findAll() {
-    return `This action returns all comments`;
+  async findByArticleId(articleId: number) {
+    const comments = await this.commentsRepository
+      .createQueryBuilder('C')
+      .select()
+      .where('C.articleId = :articleId', { articleId })
+      .getMany();
+
+    return comments;
   }
 
   findOne(id: number) {

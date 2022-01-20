@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from '../../dto/create-comment.dto';
@@ -18,15 +19,18 @@ import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
+  //NOTE : 댓글작성
   @Post()
   @UseGuards(JwtAuthGuard)
   async create(@Body() body: CreateCommentDto, @User() user) {
     return await this.commentsService.create(body, user.id);
   }
 
-  @Get()
-  findAll() {
-    return this.commentsService.findAll();
+  @Get(':articleId')
+  async findCommentsInArticle(
+    @Param('articleId', new ParseIntPipe()) articleId: number,
+  ) {
+    return await this.commentsService.findByArticleId(articleId);
   }
 
   @Get(':id')
