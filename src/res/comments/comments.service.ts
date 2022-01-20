@@ -11,8 +11,11 @@ export class CommentsService {
     @InjectRepository(Comments)
     private readonly commentsRepository: Repository<Comments>,
   ) {}
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+  async create(body: CreateCommentDto, userId: number) {
+    return await this.commentsRepository.save({
+      userId,
+      ...body,
+    });
   }
 
   findAll() {
