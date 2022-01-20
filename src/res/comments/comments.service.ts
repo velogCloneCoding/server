@@ -28,8 +28,14 @@ export class CommentsService {
     return comments;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  async findByUserId(userId: number) {
+    const comments = await this.commentsRepository
+      .createQueryBuilder('C')
+      .select()
+      .where('C.userId = :userId', { userId })
+      .getMany();
+
+    return comments;
   }
 
   update(id: number, updateCommentDto: UpdateCommentDto) {

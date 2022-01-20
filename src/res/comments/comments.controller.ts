@@ -33,9 +33,10 @@ export class CommentsController {
     return await this.commentsService.findByArticleId(articleId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findOne(+id);
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async findUserComments(@User() user) {
+    return await this.commentsService.findByUserId(user.id);
   }
 
   @Patch(':id')
