@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -8,6 +9,7 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Articles } from './article.entity';
 import { Users } from './user.entity';
@@ -27,12 +29,12 @@ export class Comments {
     name: 'created_at',
     nullable: false,
   })
-  createdAt: Date | null;
+  createdAt: Date;
 
-  @Column('timestamp', { name: 'updated_at', nullable: true })
+  @UpdateDateColumn({ type: 'timestamp', name: 'updated_at', nullable: true })
   updatedAt: Date | null;
 
-  @Column('timestamp', { name: 'deleted_at', nullable: true })
+  @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
 
   @Column('int', { name: 'article_id' })
