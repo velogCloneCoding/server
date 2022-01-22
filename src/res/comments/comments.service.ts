@@ -38,8 +38,22 @@ export class CommentsService {
     return comments;
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  async update(id: number, body: UpdateCommentDto, userId: number) {
+    const isExist = await this.commentsRepository
+      .createQueryBuilder('C')
+      .select()
+      .where('C.userId = :userId', { userId })
+      .andWhere('C.id = :id', { id })
+      .getOne();
+
+    if (isExist) {
+      await this.commentsRepository
+        .createQueryBuilder()
+        .update()
+        .set({ contents: body.contents })
+        .where('id = :id', { id })
+        .execute();
+    }
   }
 
   remove(id: number) {

@@ -3,11 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from '../../dto/create-comment.dto';
@@ -26,6 +26,7 @@ export class CommentsController {
     return await this.commentsService.create(body, user.id);
   }
 
+  //NOTE : 게시글의 댓글 가져오기
   @Get(':articleId')
   async findCommentsInArticle(
     @Param('articleId', new ParseIntPipe()) articleId: number,
@@ -33,15 +34,22 @@ export class CommentsController {
     return await this.commentsService.findByArticleId(articleId);
   }
 
+  //NOTE : 유저의 댓글 가져오기
   @Get()
   @UseGuards(JwtAuthGuard)
   async findUserComments(@User() user) {
     return await this.commentsService.findByUserId(user.id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentsService.update(+id, updateCommentDto);
+  //NOTE : 댓글 수정
+  @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  async update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() body: UpdateCommentDto,
+    @User() user,
+  ) {
+    return await this.commentsService.update(id, body, user.id);
   }
 
   @Delete(':id')
