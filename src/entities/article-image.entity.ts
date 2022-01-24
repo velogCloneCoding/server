@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   DeleteDateColumn,
   Entity,
@@ -10,7 +11,7 @@ import { Articles } from './article.entity';
 
 // @Index('fk_ARTICLE_IMAGES_ARTICLES_idx', ['articleId'], {})
 @Entity('ARTICLE_IMAGES', { schema: 'velog' })
-export class ArticleImages {
+export class ArticleImages extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 

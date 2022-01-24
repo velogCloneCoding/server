@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -13,7 +14,7 @@ import { SeriesArticlesHasArticles } from './relation/series-article-has-article
 import { Users } from './user.entity';
 
 @Entity('SERIES_ARTICLES', { schema: 'velog' })
-export class SeriesArticles {
+export class SeriesArticles extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 

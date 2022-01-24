@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -17,7 +18,7 @@ import { Users } from './user.entity';
 @Index('fk_COMMENTS_ARTICLES1_idx', ['articleId'], {})
 @Index('fk_COMMENTS_USERS1_idx', ['userId'], {})
 @Entity('COMMENTS', { schema: 'velog' })
-export class Comments {
+export class Comments extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 

@@ -1,8 +1,15 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Articles } from './article.entity';
 
 @Entity('ARTICLE_LIKES', { schema: 'velog' })
-export class ArticleLikes {
+export class ArticleLikes extends BaseEntity {
   @PrimaryColumn('int', { name: 'article_id' })
   articleId: number;
 

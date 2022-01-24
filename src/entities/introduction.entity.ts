@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -10,7 +11,7 @@ import {
 import { Users } from './user.entity';
 
 @Entity('INTRODUCTION', { schema: 'velog' })
-export class Introductions {
+export class Introductions extends BaseEntity {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 

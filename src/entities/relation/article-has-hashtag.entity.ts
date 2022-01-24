@@ -1,10 +1,17 @@
-import { Entity, Index, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Articles } from '../article.entity';
 import { Hashtags } from '../hashtag.entity';
 
 @Index('fk_ARTICLES_HAS_HASHTAGS_TO_HASHTAGS_idx', ['hashtagId'], {})
 @Entity('ARTICLES_HAS_HASHTAGS', { schema: 'velog' })
-export class ArticlesHasHashtags {
+export class ArticlesHasHashtags extends BaseEntity {
   @PrimaryColumn('int', { name: 'article_id' })
   articleId: number;
 

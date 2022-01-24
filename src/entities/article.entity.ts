@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -22,7 +23,7 @@ import { ArticlesHasHashtags } from './relation/article-has-hashtag.entity';
 
 @Index('fk_ARTICLES_USERS_idx', ['userId'], {})
 @Entity('ARTICLES', { schema: 'velog' })
-export class Articles {
+export class Articles extends BaseEntity {
   @ApiProperty({
     description: '게시글 아이디',
   })

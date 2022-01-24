@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -18,7 +19,7 @@ import { SeriesArticles } from './series-article.entity';
 
 @Index('oauthId_UNIQUE', ['oauthId'], { unique: true })
 @Entity('USERS', { schema: 'velog' })
-export class Users {
+export class Users extends BaseEntity {
   @ApiProperty({ description: '유저 index' })
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
