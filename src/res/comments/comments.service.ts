@@ -14,8 +14,7 @@ export class CommentsService {
   async create(articleId: number, body: CreateCommentDto, userId: number) {
     return await this.commentsRepository.save({
       userId,
-      contents: body.contents,
-      parentId: body.parentId,
+      ...body,
       articleId,
     });
   }
