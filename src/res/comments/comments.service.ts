@@ -56,7 +56,12 @@ export class CommentsService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async remove(id: number, userId: number) {
+    const softDeleteComment = await this.commentsRepository
+      .createQueryBuilder()
+      .softDelete()
+      .where('id = :id', { id })
+      .andWhere('userId = :userId', { userId })
+      .execute();
   }
 }
