@@ -39,14 +39,14 @@ export class ArticlesController {
   //게시글 목록 가져오기
   @Get()
   async findAll(
-    @Query('page', new ParseIntPipe(), new DefaultValuePipe(1)) page: number,
+    @Query('page', ParseIntPipe, new DefaultValuePipe(1)) page: number,
   ) {
     return await this.articlesService.findAll(page);
   }
 
   //게시글 내용 가져오기
   @Get(':id')
-  async findOne(@Param('id', new ParseIntPipe()) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.articlesService.findOne(id);
   }
 
@@ -54,7 +54,7 @@ export class ArticlesController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id', ParseIntPipe) id: number,
     @UserId() userId: number,
     @Body() body: UpdateArticleDto,
   ) {
@@ -65,7 +65,7 @@ export class ArticlesController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id', ParseIntPipe) id: number,
     @UserId() userId: number,
   ) {
     const deleteResponse = await this.articlesService.remove(id, userId);

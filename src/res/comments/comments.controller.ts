@@ -29,7 +29,7 @@ export class CommentsController {
   //NOTE : 게시글의 댓글 가져오기
   @Get(':articleId')
   async findCommentsInArticle(
-    @Param('articleId', new ParseIntPipe()) articleId: number,
+    @Param('articleId', ParseIntPipe) articleId: number,
   ) {
     return await this.commentsService.findByArticleId(articleId);
   }
@@ -45,7 +45,7 @@ export class CommentsController {
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateCommentDto,
     @User() user,
   ) {
