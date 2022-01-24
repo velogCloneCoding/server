@@ -11,10 +11,12 @@ export class CommentsService {
     @InjectRepository(Comments)
     private readonly commentsRepository: Repository<Comments>,
   ) {}
-  async create(body: CreateCommentDto, userId: number) {
+  async create(articleId: number, body: CreateCommentDto, userId: number) {
     return await this.commentsRepository.save({
       userId,
-      ...body,
+      contents: body.contents,
+      parentId: body.parentId,
+      articleId,
     });
   }
 

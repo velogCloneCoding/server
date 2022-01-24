@@ -20,10 +20,14 @@ export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
   //NOTE : 댓글작성
-  @Post()
+  @Post(':articleId')
   @UseGuards(JwtAuthGuard)
-  async create(@Body() body: CreateCommentDto, @User() user) {
-    return await this.commentsService.create(body, user.id);
+  async create(
+    @Param('articleId', ParseIntPipe) articleId: number,
+    @Body() body: CreateCommentDto,
+    @User() user,
+  ) {
+    return await this.commentsService.create(articleId, body, user.id);
   }
 
   //NOTE : 게시글의 댓글 가져오기
@@ -52,6 +56,7 @@ export class CommentsController {
     return await this.commentsService.update(id, body, user.id);
   }
 
+  //NOTE : 댓글 삭제
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async remove(@Param('id', new ParseIntPipe()) id: number, @User() user) {
