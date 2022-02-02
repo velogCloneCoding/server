@@ -9,10 +9,12 @@ import { CommentsController } from 'src/res/comments/comments.controller';
 import { CommentsService } from 'src/res/comments/comments.service';
 import { UsersController } from 'src/res/users/users.controller';
 import { UsersService } from 'src/res/users/users.service';
-import * as dotenv from 'dotenv';
 import { UsersModule } from 'src/res/users/users.module';
 import { ArticlesModule } from 'src/res/articles/articles.module';
 import { CommentsModule } from 'src/res/comments/comments.module';
+import * as dotenv from 'dotenv';
+
+import { QueryFailedError } from 'typeorm';
 
 dotenv.config();
 
@@ -67,17 +69,19 @@ describe('사용자에 대한 테스트입니다.', () => {
     commentsService = await app.resolve<CommentsService>(CommentsService);
   });
 
+  afterAll(async () => {
+    await Comments.delete({ contents: '테스트 댓글입니다.' });
+  });
+
   describe('0-. 테스트 준비', () => {
     it('0-1. Users의 Controller와 Service가 주입되었는지 확인합니다.', () => {
       expect(usersController).toBeDefined();
       expect(usersService).toBeDefined();
     });
-
     it('0-2. Articles의 Controller와 Service가 주입되었는지 확인합니다.', () => {
       expect(articlesController).toBeDefined();
       expect(articlesService).toBeDefined();
     });
-
     it('0-3. Comments의 Controller와 Service가 주입되었는지 확인합니다.', () => {
       expect(commentsController).toBeDefined();
       expect(commentsService).toBeDefined();
@@ -142,8 +146,35 @@ describe('사용자에 대한 테스트입니다.', () => {
 
   describe('3-. Comments 로직 테스트', () => {
     describe('3-1. Comments 작성', () => {
-      it.todo('3-1-1. 댓글 작성에 성공합니다.');
-      it.todo('3-1-2. 내용이 빈 댓글은 작성할 수 없습니다.');
+      it('3-1-1. 댓글 작성에 성공합니다.', async () => {
+        await commentsController.create(
+          1,
+          {
+            contents: '테스트 댓글입니다.',
+            parentId: null,
+          },
+          { id: 11 },
+        );
+
+        const created = await Comments.createQueryBuilder('comment')
+          .select()
+          .where('comment.contents = :contents', {
+            contents: '테스트 댓글입니다.',
+          })
+          .getOne();
+        expect(created.contents).toBe('테스트 댓글입니다.');
+      });
+      it('3-1-2. 내용이 빈 댓글은 작성할 수 없습니다.', async () => {
+        try {
+          await commentsController.create(
+            1,
+            { contents: null, parentId: null },
+            { id: 11 },
+          );
+        } catch (err) {
+          expect(err).toBeInstanceOf(QueryFailedError);
+        }
+      });
     });
 
     describe('3-2. Comments 수정', () => {
